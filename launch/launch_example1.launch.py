@@ -24,11 +24,11 @@ def generate_launch_description():
                 ('/output/cmd_vel', '/turtlesim2/turtle1/cmd_vel'),
             ]
         ),
-        # Node(
-        #     package='kuc_uld_ajr2025',
-        #     executable='simple_sub_node',
-        #     output='screen',
-        # ),
+        #Node(
+            #package='kuc_uld_ajr2025',
+            #executable='tervrajz',
+             #output='screen',
+         #),
 
         # first comment
     ])
