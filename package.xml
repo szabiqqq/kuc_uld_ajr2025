@@ -3,8 +3,8 @@
 <package format="3">
   <name>kuc_uld_ajr2025</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="todo@todo.com">TODO:</maintainer>
+  <description>The package draw a house using the turtlesim.</description>
+  <maintainer email="kucserka.szabolcs@hallgato.sze.hu">Kucserka Szabolcs</maintainer>
   <license>GNU General Public License v3.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
