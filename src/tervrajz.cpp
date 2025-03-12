@@ -6,46 +6,42 @@
 
 using namespace std::chrono_literals;
 
-class DrawHouse : public rclcpp::Node {
+class DrawPyramid : public rclcpp::Node {
 public:
-    DrawHouse() : Node("tervrajz") {
+    DrawPyramid() : Node("pyramid_drawing") {
         velocity_pub = create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
         teleport_client = create_client<turtlesim::srv::TeleportAbsolute>("/turtle1/teleport_absolute");
         pen_client = create_client<turtlesim::srv::SetPen>("/turtle1/set_pen");
 
-        RCLCPP_INFO(get_logger(), "Spawning in center, then teleporting...");
+        RCLCPP_INFO(get_logger(), "Rajzolás kezdete: Gúla");
 
-        rclcpp::sleep_for(1s); 
+        // Gúla alapnégyzetének rajzolása
+        teleport(3.0, 3.0, 0.0); set_pen(true);
+        move_forward(4.0); // jobbra
+        turn(90);
+        move_forward(4.0); // felfelé
+        turn(90);
+        move_forward(4.0); // balra
+        turn(90);
+        move_forward(4.0); // lefelé
+        turn(90);
+        
+        // Gúla csúcsának összekötése az alap pontjaival
+        double peak_x = 5.0, peak_y = 7.0;
         set_pen(false);
-        teleport(4.0, 3.0, 0.0);  
-        rclcpp::sleep_for(1s);  
-        set_pen(true);
-
-        move_forward(3.0);  // Move RIGHT
-        set_pen(false); teleport(7.0, 3.0, M_PI_2); set_pen(true);  // Rotate UP
-        move_forward(3.0);  // Move UP
-        set_pen(false); teleport(7.0, 6.0, M_PI); set_pen(true);  // Rotate LEFT
-        move_forward(3.0);  // Move LEFT
-        set_pen(false); teleport(4.0, 6.0, -M_PI_2); set_pen(true);  // Rotate DOWN
-        move_forward(3.0);  // Move DOWN (back to start)
-
+        teleport(3.0, 3.0, 0.0); set_pen(true);
+        draw_line_to(peak_x, peak_y);
         set_pen(false);
-        RCLCPP_INFO(get_logger(), "Square complete! Now adding roof...");
-
+        teleport(7.0, 3.0, 0.0); set_pen(true);
+        draw_line_to(peak_x, peak_y);
         set_pen(false);
-        teleport(4.0, 6.0, M_PI_4); // Face diagonally up-right
-        set_pen(true);
-
-        move_forward(2.1);  // Move up-right to peak at (5.5, 7.4)
-
+        teleport(3.0, 7.0, 0.0); set_pen(true);
+        draw_line_to(peak_x, peak_y);
         set_pen(false);
-        teleport(5.5, 7.4, -M_PI_4);
-        set_pen(true);
+        teleport(7.0, 7.0, 0.0); set_pen(true);
+        draw_line_to(peak_x, peak_y);
 
-        move_forward(2.1);  // Move down-right to (7.0, 6.0)
-
-        set_pen(false);
-        RCLCPP_INFO(get_logger(), "House complete!");
+        RCLCPP_INFO(get_logger(), "Gúla kész!");
     }
 
 private:
@@ -77,11 +73,26 @@ private:
         }
         velocity_pub->publish(geometry_msgs::msg::Twist());  // Stop
     }
+
+    void turn(double angle) {
+        geometry_msgs::msg::Twist msg;
+        msg.angular.z = M_PI / 2;  // 90 fokos fordulás
+        rclcpp::Time start = now();
+        while ((now() - start).seconds() < (angle / 90.0)) {
+            velocity_pub->publish(msg);
+            rclcpp::sleep_for(100ms);
+        }
+        velocity_pub->publish(geometry_msgs::msg::Twist());  // Stop
+    }
+
+    void draw_line_to(double x, double y) {
+        teleport(x, y, 0.0);
+    }
 };
 
 int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<DrawHouse>());
+    rclcpp::spin(std::make_shared<DrawPyramid>());
     rclcpp::shutdown();
     return 0;
 }
