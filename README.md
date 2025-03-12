@@ -1,5 +1,5 @@
 # `kuc_uld_ajr2025` package
-ROS 2 C++ package.  [![Static Badge](https://img.shields.io/badge/ROS_2-Humble-34aec5)](https://docs.ros.org/en/humble/)
+ROS 2 C++ package ami 2 nodeból áll, és a Turtlesim segítségével rajzol egy gúlát.  [![Static Badge](https://img.shields.io/badge/ROS_2-Humble-34aec5)](https://docs.ros.org/en/humble/)
 ## Packages and build
 
 It is assumed that the workspace is `~/ros2_ws/`.
