@@ -34,7 +34,7 @@ ros2 launch kuc_uld_ajr2025 launch_example1.launch.py
 
 
 ## Screenshot
-<img src="img/screenshot.png" width="60%"/>
+<img src="screenshot.png" width="60%"/>
 
 ## Mermaid-diagram
 ![Screenshot 2025-02-28 212738](https://github.com/user-attachments/assets/6907e987-9b2d-407c-a540-878eb7848a2f)
